@@ -10,7 +10,7 @@ let jcl = "//KT#JZOWE JOB NLD999910001,'KREUTZER,J. G1501065',CLASS=F,MSGCLASS=1
     "// MSGLEVEL=(1,1),                                                    \n" + 
     "// NOTIFY=ROSPHD,                                                     \n" +
     "// TIME=(00,40)                                                       \n" +
-    "//EXEC PGM=IEFBR14";
+    "//TEST    EXEC PGM=IEFBR14";
 
 
 // This method is called when your extension is activated
