@@ -18,6 +18,10 @@
       {
         "command": "zowesubmitjclnotifycommontest.helloWorld",
         "title": "Hello World"
+      },
+      {
+        "command": "zowesubmitjclnotifycommontest.helloWorldSecond",
+        "title": "Another Hello World"
       }
     ]
   },

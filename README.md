@@ -1,71 +1,13 @@
-# zowesubmitjclnotifycommontest README
+See `extension.ts` for the main code. A command ("Hello World" and "Another Hello World") can be activate to test the code.
 
-This is the README for your extension "zowesubmitjclnotifycommontest". After writing up a brief description, we recommend including the following sections.
+## Hello World command
+This command submits a job using the `SubmitJobs.submitJclNotifyCommon` method. 
 
-## Features
+## Another Hello World commnad
+This commnad submits a job using the `SubmitJobs.submitJclCommon` method and then wait for the status using the `MonitorJobs.waitForStatusCommon` method.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## What we try to accomplish:
+When submitting a job, we want to be notified when the job is complete, e.g. has the OUTPUT status. For this, we use the SubmitJobs class to execute the submitJclNotifyCommon method.
 
-For example if there is an image subfolder under your extension project workspace:
+What we expect is that this method will return once the job on the mainframe has reached the OUTPUT status. Instead, the method throws that it is unable to find the job based on the job ID and the job number. We can verify that the job has actually been executed successfully on the mainframe.
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
-
-## Extension Settings
-
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
