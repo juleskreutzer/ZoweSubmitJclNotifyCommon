@@ -5,12 +5,15 @@ import * as vscode from 'vscode';
 import * as zowe from '@zowe/cli';
 import * as path from 'path';
 import * as os from 'os';
+import { IJob } from '@zowe/cli';
 
-let jcl = "//KT#JZOWE JOB NLD999910001,'KREUTZER,J. G1501065',CLASS=F,MSGCLASS=1,\n" +
+let jcl = "//KT#ZOWE JOB NLD999910001,'KREUTZER,J. G1501065',CLASS=F,MSGCLASS=1,\n" +
     "// MSGLEVEL=(1,1),                                                    \n" + 
     "// NOTIFY=ROSPHD,                                                     \n" +
     "// TIME=(00,40)                                                       \n" +
     "//TEST    EXEC PGM=IEFBR14";
+
+let resp: IJob;
 
 
 // This method is called when your extension is activated
@@ -31,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	let disp = vscode.commands.registerCommand('zowesubmitjclnotifycommontest.helloWorldSecond', async () => {
-		await test2();
+		await test3();
 	});
 
 	context.subscriptions.push(disposable);
@@ -55,10 +58,13 @@ async function test(): Promise<void> {
 	const mergedArgs = profileInfo.mergeArgsForProfile(zosmfProfAttr, { getSecureVals: true } );
 	const session = zowe.imperative.ProfileInfo.createSession(mergedArgs.knownArgs);
 	try {
-		const response = await zowe.SubmitJobs.submitJclNotifyCommon(session, {
+		resp = await zowe.SubmitJobs.submitJclCommon(session, {
 			jcl: jcl
 		});
-		console.log(response);
+		// const response = await zowe.SubmitJobs.submitJclNotifyCommon(session, {
+		// 	jcl: jcl
+		// });
+		// console.log(response);
 		vscode.window.showInformationMessage('Job submitted OK, check console log');
 	} catch (err) {
 		vscode.window.showErrorMessage('Error catched, see log');
@@ -100,6 +106,32 @@ async function test2(): Promise<void> {
 		console.error(err);
 	}
 
+}
+
+async function test3(): Promise<void> {
+	const profileInfo = new zowe.imperative.ProfileInfo('zowe');
+	await profileInfo.readProfilesFromDisk({
+		homeDir: path.join(os.homedir(), '.zowe'),
+		projectDir: false
+	});
+
+	const zosmfProfAttr = profileInfo.getDefaultProfile('zosmf');
+	if (zosmfProfAttr === null) {
+		console.error('Unable to load ZOSMF profile');
+		return;
+	}
+
+	const mergedArgs = profileInfo.mergeArgsForProfile(zosmfProfAttr, { getSecureVals: true } );
+	const session = zowe.imperative.ProfileInfo.createSession(mergedArgs.knownArgs);
+
+	const response2 = await zowe.MonitorJobs.waitForStatusCommon(session, {
+		jobid: resp.jobid,
+		jobname: resp.jobname,
+		status: "OUTPUT"
+	});
+
+	console.log(response2);
+		vscode.window.showInformationMessage('Job submitted OK, check console log');
 }
 
 // This method is called when your extension is deactivated
